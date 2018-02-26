@@ -17,3 +17,16 @@ Although the purpose of the original `/proc` directory was debugging, it is now 
 |stat|Status of this process|
 |statm|Usage of memory|
 |status|Detail status of this process|
+
+## What is the difference between realtime and monotonic on dualtimestamp structure
+Systemd has the structer of `dual_timestamp`.
+It can contain `realtime` and `monotonic` timestamps.
+The difference between these timestamps is as follows.
+
+|field|meaning|
+|:---|:---|
+|realtime|This represents the real time. Hence, these is a possibility of go back due to synchronization of ntp. Therefore This is not suitable for acquisition of benchmark etc.|
+|monotonic|It simply represents an increasing time. Time will not back.|
+
+Also these times can be obtained from the `clock_gettime` function.
+To obtain realtime, specify `CLOCK_REALTIME` as an argument, and when acquiring monotonic, specify `CLOCK_MONOTONIC` as an argument.
